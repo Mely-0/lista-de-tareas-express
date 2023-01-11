@@ -9,20 +9,19 @@ fs.readFile('tareas.json', function(err, data) {
     let tarea = data.toString();
     datos = JSON.parse(tarea);
     res.send(datos)
+
 })
+
 })
 
 app.post("/", express.json(), function(req,res){
     const datas= req.body;
         let tareas;
-        let array = [];
         fs.readFile('tareas.json', function(err, data) {
         let tarea = data.toString();
         tareas = JSON.parse(tarea);
-        
         tareas.push(datas)
-        array= tareas
-        console.log(array)
+        console.log(tareas)
     
         fs.unlink('tareas.json' , function(error){
             if(error)throw error;
