@@ -2,12 +2,10 @@ const express = require("express");
 const fs= require("fs");
 const app = express();
 port= 8002
-const eliminar = require("./eliminar")
-const editar = require("./editar")
+const list = require ("./list-edit-router");
 const completados= require("./list-view-router")
 app.use("/estado", completados)
-app.use("/eliminar", eliminar)
-app.use("/editar", editar)
+app.use("/lista",list)
 
 app.get("/", express.json(), function(req, res){
 let datos ;
@@ -20,25 +18,7 @@ fs.readFile('tareas.json', function(err, data) {
 
 })
 
-app.post("/", express.json(), function(req,res){
-    const datas= req.body;
-        let tareas;
-        fs.readFile('tareas.json', function(err, data) {
-        let tarea = data.toString();
-        tareas = JSON.parse(tarea);
-        tareas.push(datas)
-        console.log(tareas)
-    
-        fs.unlink('tareas.json' , function(error){
-            if(error)throw error;
-        });
-        fs.appendFile('tareas.json', JSON.stringify(tareas), function(error){
-            if(error)throw error;  
-        })   
 
-        });
-        res.send("guardado")
-})
 app.listen(port, function(){
     console.log(`el servidor esta escuchando en http://localhost:${port} `)
 })
