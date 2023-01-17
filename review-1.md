@@ -4,7 +4,8 @@ mi producto es una lista de tareas creada desde el framework de express, este pr
 #¿Cuáles son las funcionalidades más importantes y porque los usuarios las usarían?
 las principales funcionalidades del producto es que se puede agregar tareas , aliminarlas , listarlas , y poder onservar cules de ellas estan completas y cuales no. 
 
-#Rutas: 
+#Rutas:                                      
+ 
 /lista : en esta podras accededer a todas las funciones del proyecto.
 /lista/listar: se podra visualizar las tareas actuales.
 /lista/agregar : se podra agregar por medio de esta ruta. 
