@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const fs = require("fs");
-const { validValidacionPost, validVacioPost, validValidacionPut, validVacioPut } = require("./middleware/middleware");
+const { validValidacionPost, validVacioPost, validValidacionPut, validVacioPut, autenticacion, autentication } = require("./middleware/middleware");
 
 
-router.get("/listar" ,express.json(), function(req, res){
+router.get("/listar" ,autentication,express.json(), function(req, res){
     let datos ;
     fs.readFile('tareas.json', function(err, data) {
         let tarea = data.toString();
@@ -14,7 +14,7 @@ router.get("/listar" ,express.json(), function(req, res){
     })
     
 })
-router.post("/agregar",validValidacionPost,validVacioPost, function(req,res){
+router.post("/agregar",validValidacionPost,validVacioPost,autenticacion, function(req,res){
     const datas= req.body;
     let tareas;
     fs.readFile('tareas.json', function(err, data) {

@@ -1,3 +1,4 @@
+const jwt = require("jsonwebtoken");
 function urle (req, res , next){
     const url = req.originalUrl;
     console.log(url);
@@ -7,7 +8,9 @@ function urle (req, res , next){
         "/lista/agregar",
         "/lista/eliminar/&40",
         "/estado/&completada",
-        "/estado/&incompleta"
+        "/estado/&incompleta",
+        "/agregarUsuario",
+        "/login"
 ];
     const validar = urlValid.some(ruta=> ruta === url);
     
@@ -69,11 +72,49 @@ function validValidacionPut(req, res , next){
     }
 }
 
+function autenticacion (req, res, next){
+    
+    const toke =  req.header("Authorization")
+    console.log(toke);
+    try {
+        const very = jwt.verify(toke, process.env.SECRET_KEY)
+        console.log(very.user);
+        if(very.user === "admi"){
+            next()
+        }else{
+            return res.status(403).json({
+                error:"Acces not allowed"
+            })
+        }
+    } catch (error) {
+        res.json({ error});
+    }
+}
+function autentication (req, res, next){
+    
+    const toke =  req.header("Authorization")
+    console.log(toke);
+    try {
+        const very = jwt.verify(toke, process.env.SECRET_KEY)
+        console.log(very.user);
+        if(very.user === "admi"){
+            next()
+        }else{
+            return res.status(403).json({
+                error:"Acces not allowed"
+            })
+        }
+    } catch (error) {
+        res.json({ error});
+    }
+}
 module.exports= {
     urle,
     methods,
     validVacioPost,
     validValidacionPost,
     validVacioPut,
-    validValidacionPut
+    validValidacionPut,
+    autenticacion,
+    autentication
 }
