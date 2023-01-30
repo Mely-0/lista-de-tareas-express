@@ -4,11 +4,11 @@ const router = express.Router();
 
 function validacion(req, res, next){
     const completada = req.params.completada
-   if (completada === "completada" || completada  === "incompleta"){
-       next()
-    }else{
-       res.status(400).send("bad request")
-   } 
+    if (completada === "completada" || completada  === "incompleta"){
+        next()
+        }else{
+        res.status(400).send("bad request")
+    } 
 }
 router.get("/&:completada" ,validacion, (req, res)=>{
     const completada = req.params.completada

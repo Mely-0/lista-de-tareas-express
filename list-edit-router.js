@@ -1,51 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const fs = require("fs")
+const fs = require("fs");
+const { validValidacionPost, validVacioPost, validValidacionPut, validVacioPut } = require("./middleware/middleware");
 
-function validVacioPost(req, res , next){
-    const method = req.method;
-    if(method === "POST"){
-        if(Object.values(req.body).length === 0 ){
-            res.status(400).send("body is null")
-        }else{
-            next()
-        }
-    }
-    next()
-}
-function validValidacionPost(req, res , next){
-    const datas= req.body;
-    const method = req.method;
-    if(method === "POST"){
-        if (datas.id === "" || datas.tarea === "" || datas.completada === "" || datas.descripcion === ""){
-            res.status(400).send("All fields are required")
-        }else{
-            next()
-        }
-    }
-    next()
-}
-function validVacioPut(req, res , next){
-    const method = req.method;
-    if(method === "PUT"){
-        if(Object.values(req.body).length === 0 ){
-            res.status(400).send("body is null")
-        }else{
-            next()
-        }
-    }
-}
-function validValidacionPut(req, res , next){
-    const dat= req.body;
-    const method = req.method;
-    if(method === "PUT"){
-        if (dat.id === "", dat.tarea === "" || dat.completada === "" || dat.descripcion === ""){
-            res.status(400).send("All fields are required")
-        }else{
-            next()
-        }
-    }
-}
+
 router.get("/listar" ,express.json(), function(req, res){
     let datos ;
     fs.readFile('tareas.json', function(err, data) {
@@ -76,6 +34,8 @@ router.post("/agregar",validValidacionPost,validVacioPost, function(req,res){
     res.send("guardado")
 })
 router.delete("/eliminar/&:ide", (req, res)=>{
+    const url = req.originalUrl;
+    console.log("esta es "+url);
     const ide= parseInt(req.params.ide);
     console.log(ide)
     let delet;
