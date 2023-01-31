@@ -5,7 +5,7 @@ const app = express();
 port= 8002
 const list = require ("./list-edit-router");
 const completados= require("./list-view-router");
-const { urle, methods} = require("./middleware/middleware");
+const { urle, methods, autenticacion} = require("./middleware/middleware");
 const jwt = require("jsonwebtoken")
 const env = require("dotenv");
 env.config();
@@ -49,7 +49,7 @@ app.post("/login", express.json(), (req, res) => {
         }
     })
 })
-app.post("/agregarUsuario", (req, res) => {
+app.post("/agregarUsuario",autenticacion, (req, res) => {
     const { body } = req;
     console.log(body);
     let user;
@@ -68,7 +68,9 @@ app.post("/agregarUsuario", (req, res) => {
         res.send("agregado")
    })
 })
-
+app.get("/lista", (req, res)=>{
+    res.send("hola,bienvenidos")
+})
 app.listen(port, function(){
     console.log(`el servidor esta escuchando en http://localhost:${port} `)
 })

@@ -17,7 +17,7 @@ function urle (req, res , next){
     if(validar){
         next();
     }else{
-        res.status(401).send("no estas autorizado")
+        res.status(401).send("invalid path")
     }
 }
 function methods (req,res,next){
@@ -97,7 +97,7 @@ function autentication (req, res, next){
     try {
         const very = jwt.verify(toke, process.env.SECRET_KEY)
         console.log(very.user);
-        if(very.user === "admi"){
+        if(very.user === "user"){
             next()
         }else{
             return res.status(403).json({
