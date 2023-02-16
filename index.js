@@ -1,20 +1,19 @@
 const express = require("express");
-const fs= require("fs");
-
+const fs = require("fs");
+const cors = require('cors')
 const app = express();
-port= 8002
-const list = require ("./list-edit-router");
-const completados= require("./list-view-router");
-const { urle, methods, autenticacion} = require("./middleware/middleware");
+port = 8002
+const router = require("./list-edit-router");
+const completados = require("./list-view-router");
+const { urle, methods, autenticacion } = require("./middleware/middleware");
 const jwt = require("jsonwebtoken")
 const env = require("dotenv");
 env.config();
-app.use(urle);
+/* app.use(urle); */
 app.use(methods);
 app.use(express.json());
-
 app.use("/estado", completados)
-app.use("/lista",list)
+app.use("/lista", router)
 
 app.post("/login", express.json(), (req, res) => {
     const user = req.body.nombre;
@@ -49,7 +48,7 @@ app.post("/login", express.json(), (req, res) => {
         }
     })
 })
-app.post("/agregarUsuario",autenticacion, (req, res) => {
+app.post("/agregarUsuario", autenticacion, (req, res) => {
     const { body } = req;
     console.log(body);
     let user;
@@ -57,8 +56,8 @@ app.post("/agregarUsuario",autenticacion, (req, res) => {
         let usuario = data.toString();
         user = JSON.parse(usuario)
         user.push(body)
-        console.log(body); 
-    
+        console.log(body);
+
         fs.unlink("usuarios.json", function (error) {
             if (error) throw error
         })
@@ -66,11 +65,11 @@ app.post("/agregarUsuario",autenticacion, (req, res) => {
             if (error) throw error
         })
         res.send("agregado")
-   })
+    })
 })
-app.get("/lista", (req, res)=>{
+app.get("/lista", (req, res) => {
     res.send("hola,bienvenidos")
 })
-app.listen(port, function(){
+app.listen(port, function () {
     console.log(`el servidor esta escuchando en http://localhost:${port} `)
 })
