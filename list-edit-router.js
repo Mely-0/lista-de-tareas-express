@@ -13,6 +13,18 @@ router.get("/", function (req, res) {
 
     }) 
 })
+router.get("/:id", function (req, res) {
+    const {id}= req.params;
+    let datos;
+    fs.readFile('tareas.json', function (err, data) {
+        let tarea = data.toString();
+        datos = JSON.parse(tarea);
+        const filtrar = datos.filter((tarea_id => tarea_id.id == id))
+        console.log(filtrar);
+        res.json({ tareas: filtrar })
+
+    }) 
+})
 router.post("/", validValidacionPost, validVacioPost, function (req, res) {
     const datas = req.body;
     console.log(datas);
